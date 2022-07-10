@@ -5,11 +5,7 @@ categories:
  - nacos
 ---
 
-<!-- ## git拉取nacos-docker2.1.0版本
 
-git clone https://github.com/nacos-group/nacos-docker.git
-cd nacos-docker
-git checkout -b v2.1.0 v2.1.0 -->
 ## docker 安装
 ```
     apt install docker.io
@@ -23,11 +19,6 @@ git checkout -b v2.1.0 v2.1.0 -->
 ```
     mkdir -p /root/nacos/logs
 ```
-<!-- ### 在文件中写入以下配置
-```
-    vim /root/nacos/init.d/custom.properties
-    management.endpoints.web.exposure.include=*
-``` -->
 
 ## 初始化 mysql 数据库 
 
@@ -115,7 +106,7 @@ docker run -d -p 8848:8848 -p 9848:9848 -p 9849:9849 -e MODE=standalone -e PREFE
 ```
 ### 访问http://localhost:8848/nacos/ 账号默认nacos、密码默认nacos
 新建txt配置文件
-![hello_nacos](/img/docker-nacos/hello_nacos.png)
+![hello nacos](/img/docker-nacos/hello_nacos.png)
 
 ```
 Service registration服务注册示例
