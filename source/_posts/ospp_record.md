@@ -21,11 +21,14 @@ nacos里注册的服务通过分组(groupName)来隔离的，我使用nacos的go
 
 0715更新
 1、初步实现nacos-coredns插件中的grpc通信模块
-目前已成功在nacos-coredns-plugin的v1.6.7分支上加入了与nacos服务端通信的grpc客户端模块。在coredns v1.6.7导入nacos-sdk-go/v2包后，会将coredns的go.mod中 goole.golang.org/grpc v1.26.0 更新为 v1.36.1，编译时会报错不兼容。 
+目前已成功在nacos-coredns-plugin的v1.6.7分支上加入了与nacos服务端通信的grpc客户端模块。在coredns v1.6.7导入nacos-sdk-go/v2包后，会将coredns的go.mod中 goole.golang.org/grpc v1.26.0 更新为 v1.36.1，编译时会报错不兼容。 通过 replace 指令，将旧的库地址，替换为新的库后可以成功编译。
+![](/img/ospp_record/grpc.png)
 
-暂时对Nacos-coredns-plugin中的Domain数据结构进行保留，并调整，通过从nacos服务器获取的model.Service转json再转Domain的方式，这样对原来代码的改动最小，后期会继续优化成直接使用model.Service。
-
+暂时对Nacos-coredns-plugin中的Domain数据结构进行了保留，调整，通过从nacos服务器获取的model.Service转json再转Domain的方式，这样对原来代码的改动最小，后期会继续优化成直接使用model.Service。
+![](/img/ospp_record/getService.png)
 如果直接用nacos-sdk-go中的model.Service数据结构，原来nacos-coredns-plugin的Domain是直接弃用了吗？
+
+
 
 2、缓存问题
 原来coredns的服务数据是缓存在 /root/nacos-go-client-cache/目录中，而nacos-sdk-go自带了对服务的缓存默认是在 /tmp/nacos/cache/ 目录中，这些缓存的数据都是在插件启动的时候加载的，两者的功能产生了重叠。原来的nacos-coredns-plugin的缓存功能要保留吗，是否需要让nacos-sdk-go管理服务数据的缓存。
