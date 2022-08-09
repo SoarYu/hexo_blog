@@ -91,7 +91,7 @@ type Instance struct {
 ```
 
 ## grpc通信模块设计
-
+通信流程(7月6日更新)
 1、启动nacos-coredns插件时，同时启动插件与nacos服务器的grpc通信客户端（nacos_grpc_client）。 
 2、grpc通信客户端调用了Nacos-go-sdk/v2中实现的方法，从nacos服务器集群中获取一个服务器的IP地址和端口并建立TCP连接。HTTP/2下，同个域名只需要占用一个 TCP 连接，使用一个连接并行发送多个请求和响应。 
 3、nacos-coredns插件向Nacos服务器请求资源时，通过grpc通信客户端来调用nacos-go-sdk/v2封装的GetAllServicesInfo、GetService等方法来获取所有服务或某个具体服务的信息详情（ip、port...）。
@@ -99,7 +99,7 @@ type Instance struct {
 5、此外，可以对grpc通信客户端设置 超时时间 与 重试次数 等措施来避免调用超时、 阻塞等情况。
 
 
-类设计图
+类设计图(7月10日更新)
 
 nacos_grpc_client.go
 

@@ -122,3 +122,24 @@ Get config获取配置示例
 
 curl -X GET "http://127.0.0.1:8848/nacos/v1/cs/configs?dataId=nacos.cfg.dataId&group=test"
 ```
+
+## 集群部署
+```
+docker run -d \
+--network myNetwork --ip 172.18.0.4 --name nacos-server-18848 \
+-e MODE=cluster \
+-e SPRING_DATASOURCE_PLATFORM=mysql \
+-e MYSQL_SERVICE_HOST=172.18.0.3 \
+-e MYSQL_SERVICE_PORT=3306 \
+-e MYSQL_SERVICE_USER=root \
+-e MYSQL_SERVICE_PASSWORD=123456 \
+-e MYSQL_SERVICE_DB_NAME=nacos_config \
+-e NACOS_SERVER_PORT=8848 \
+-e NACOS_SERVERS="172.18.0.4:8848 172.18.0.5:8848 172.18.0.6:8848" \
+-e NACOS_SERVER_IP=172.18.0.4 \
+-e JVM_XMS=256m -e JVM_XMX=512m  \
+-v /usr/local/nacos/logs/nacos-server-18848:/home/nacos/logs \
+-v /usr/local/nacos/conf:/home/nacos/conf \
+-p 18848:8848 \
+nacos/nacos-server
+```
