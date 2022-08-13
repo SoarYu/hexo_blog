@@ -1,3 +1,10 @@
+---
+title: linux部署clash服务 
+date: 2022-06-27 15:21:43
+categories:
+- linux
+---
+
 安装：
 
 查找相应版本
