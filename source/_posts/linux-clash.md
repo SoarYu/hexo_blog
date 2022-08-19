@@ -75,9 +75,6 @@ sudo systemctl status clash.service
 即可完成，也可以设置开机自启动，这样的话，不用每天自己运行/usr/bin/clash -d /etc/clash/命令了。
 
 
-
-
-
 #!/usr/bin/env bash
 # cd GOPATH
 cd $GOPATH/src/
