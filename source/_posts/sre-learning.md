@@ -1,6 +1,6 @@
 ---
 title: sre 学习路线
-date: 2022-07-06 22:16:00
+date: 2022-11-01 22:16:00
 categories: 
  - sre
 ---
