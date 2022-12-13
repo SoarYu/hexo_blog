@@ -214,37 +214,158 @@ HTTPS采用对称加密和非对称加密结合的［混合加密］方式。
 
 ## 4.3 HTTP 请求和响应的报文组成、方法、状态码
 
-请求行 + 请求头Header + 请求体Body
-```
-1、请求行:（请求方法； URL；协议版本号）
-* 请求方法: GET, POST, PUT, DELETE, PATCH, HEAD, OPTIONS, TRACE 
-* 协议版本号： HTTP版本号
-例如： POST  /chapter17/user.html  HTTP/1.1
+### 4.3.1 HTTP 报文
 
-2、请求头：包含请求的附加信息，有key： value组成
+1. 请求报文
 
-3、请求体：承载多个请求参数的数据。含回车、换行和请求数据（并非都有）
-```
+[](/img/computer-networking/http-request.png)
 
-服务器处理请求并返回HTTP报文
 ```
-响应报文主要由响应行、响应头和响应主体构成。
-1、相应行: （协议版本；状态码；状态码描述）
-2、状态码规则
-200：客户端请求成功
-206：partial content服务器已经正确处理部分GET请求，实现断点续传或同时分片下载，该请求必须包含Range请求头来指示客户端期望得到的范围
-301（永久重定向）：该资源已被永久移动到新位置，将来任何对该资源的访问都要使用本响应返回的若干个URL之一
-302（临时重定向）：请求的资源现在临时从不同的URI中获得
-304：如果客户端发送一个待条件的GET请求并且该请求以经被允许，而文档内容未被改变，则返回304，该响应不
-包含包体（即可直接使用缓存）
-400：请求报文语法有误，服务器无法识别
-401：请求需要认证
-403：请求的对应资源禁止被访问
-404：服务器无法找到对应资源
-500：服务器内部错误
-503：服务器正忙
+GET /admin_ui/rdx/core/images/close.png HTTP/1.1
+Accept: */*
+Referer: http://xxx.xxx.xxx.xxx/menu/neo
+Accept-Language: en-US
+User-Agent: Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 6.1; WOW64; Trident/7.0; SLCC2; .NET CLR 2.0.50727; .NET CLR 3.5.30729; .NET CLR 3.0.30729; .NET4.0C; .NET4.0E)
+Accept-Encoding: gzip, deflate
+Host: xxx.xxx.xxx.xxx
+Connection: Keep-Alive
+Cookie: startupapp=neo; is_cisco_platform=0; rdx_pagination_size=250%20Per%20Page; SESSID=deb31b8eb9ca68a514cf55777744e339
 ```
 
+HTTP的请求报文包括：
+
+请求行(request Line)、请求头部(Header)、 空行 和 请求数据(request data) Body 四个部分组成。
+
+
+- 请求行包括：请求方法 + URL(包括参数信息) + 协议版本这些信息
+```
+    GET  /admin_ui/rdx/core/images/close.png  HTTP/1.1
+```
+
+- 请求头部(Header)是一个个的**key-value**值，比如
+```
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_5)
+Accept: */*
+Host: xxx.xxx.xxx.xxx
+Connection: Keep-Alive
+```
+
+- 空行(CR+LF)：请求报文用空行表示**header和请求数据的分隔**
+
+- 请求数据：GET方法没有携带数据， POST方法会携带一个body
+
+2. 响应报文
+
+[](/img/computer-networking/http-response.png)
+
+```
+HTTP/1.0 200 OK
+Content-Type: text/plain
+Content-Length: 137582
+Expires: Thu, 05 Dec 1997 16:00:00 GMT
+Last-Modified: Wed, 5 August 1996 15:55:28 GMT
+Server: Apache 0.84
+<html>
+<body>Hello World</body>
+</html>
+```
+
+HTTP的响应报文包括：状态行 Line，响应头 Header，空行 CRLF，数据(响应体)
+
+- 状态行包括：HTTP版本号，状态码和状态值组成。
+```
+HTTP/1.0 200 OK
+```
+
+- 响应头类似请求头，是一系列key-value值
+```
+Content-Type: text/plain 实体主体的数据类型
+Content-Length: 137582 实体主体的大小
+Expires: Thu, 05 Dec 1997 16:00:00 GMT 响应数据资源的过期时间
+Last-Modified: Wed, 5 August 1996 15:55:28 GMT 资源的最后修改时间。
+Server: Apache 0.84
+```
+
+常见的请求首部有 Accept 可接收媒体资源的类型、Accept-Charset 可接收的字符集、Host 请求的主机名。
+
+常见的响应首部有 ETag 资源的匹配信息，Location 客户端重定向的 URI。
+
+常见的通用首部有 Cache-Control 控制缓存策略、Connection 管理持久连接。
+
+常见的实体首部有 Content-Length 实体主体的大小、Expires 实体主体的过期时间、Last-Modified 资源的最后修改时间。
+
+- 空行：同上，响应报文也用空行来分隔header和数据
+
+- 响应体：响应的data，本例中是一段HTML
+
+### 4.3.2 HTTP 方法 、GET和POST区别
+
+1. GET:  向服务器获取资源的简单请求
+
+2. POST：向服务器提交数据请求
+
+3. PUT： 修改指定资源
+
+4. DELETE： 删除URL标记的指定资源
+
+5. CONNECT： 用于代理服务器
+
+6. TRANCE： 主要用于回环测试
+
+7. OPTIONS： 返回所有可用的方法
+
+8. HEAD： 获取URL标记资源的首部
+其中，POST、DELETE、PUT、GET的含义分别对应我们最熟悉的增、删、改、查。
+
+#### 4.3.2.1 GET和POST区别
+
+从三个方面来说明GET和POST的区别： 传参方式不同、 幂等和安全性不同、 可被缓存性不同
+
+1. 从 HTTP 报文层面来看，GET 请求将信息放在 URL，POST 将请求信息放在请求体中。这一点使得 GET 请求携带的数据量有限，因为 URL 本身是有长度限制的，而 POST 请求的数据存放在报文体中，因此对大小没有限制。而且从形式上看，GET 请求把数据放 URL 上不太安全，而 POST 请求把数据放在请求体里想比较而言安全一些。
+
+2. 从数据库层面来看，GET 符合幂等性和安全性，而 POST 请求不符合。这个其实和 GET/POST 请求的作用有关。按照 HTTP 的约定，GET 请求用于查看信息，不会改变服务器上的信息；而 POST 请求用来改变服务器上的信息。正因为GET 请求只查看信息，不改变信息，对数据库的一次或多次操作获得的结果是一致的，认为它符合幂等性。安全性是指对数据库操作没有改变数据库中的数据。
+
+3. 从其他层面来看，GET 请求能够被缓存，GET 请求能够保存在浏览器的浏览记录里，GET 请求的 URL 能够保存为浏览器书签。这些都是 POST 请求所不具备的。缓存是 GET 请求被广泛应用的根本，他能够被缓存也是因为它的幂等性和安全性，除了返回结果没有其他多余的动作，因此绝大部分的 GET 请求都被 CDN 缓存起来了，大大减少了 Web 服务器的负担。
+
+#### 4.3.2.2 GET 的长度限制是多少
+
+HTTP中的GET方法是通过URL传递数据的，但是URL本身其实并没有对数据的长度进行限制，真正限制GET长度的是浏览器。
+
+例如IE浏览器对URL的最大限制是2000多个字符，大概2kb左右，像Chrome、Firefox等浏览器支持的URL字符数更多，其中FireFox中URL的最大长度限制是65536个字符，Chrome则是8182个字符。
+这个长度限制也不是针对数据部分，而是针对整个URL。
+
+
+### 4.3.3 HTTP 状态码
+
+```
+101 切换请求协议
+200 请求成功
+301 请求资源永久移动，返回新URI
+302 请求资源临时移动， 浏览器重定向到新的URI
+400 客户端请求的语法错误，服务端无法理解
+401 当前请求需要认证
+403 服务器理解请求，但拒绝执行
+500 服务器内部错误
+```
+
+301：永久性移动，请求的资源已被永久移动到新位置。服务器返回此响应时，会返回新的资源地址。
+
+302：临时性性移动，服务器从另外的地址响应资源，但是客户端还应该使用这个地址。
+
+用一个比喻，301就是嫁人的新垣结衣，302就是有男朋友的长泽雅美。
+
+
+## 4.4 HTTP、 HTTPS 综合
+
+### 4.4.1 HTTP请求的一个完整过程
+
+- 建立 TCP 连接（之前可能还有一次DNS域名解析）
+- 三次握手建立TCP完成后，客户端向服务器发送请求命令，比如 GET https://www.baidu.com?name=xx&addr=xx HTTP1.1
+- 客户端发送请求头信息，发送完了header后会接着发送一个空白行，GET请求没有数据，POST请求要发送body数据
+- 服务器接收到以上信息后，开始处理业务，处理完有了结果以后，服务器开始应答
+- 服务器返回响应头信息，发送完response header以后，再发送一个空白行
+- 然后服务器向客户端发送数据
+- 发送完了服务器四次挥手关闭 TCP 连接
 
 
 # 五、网络综合
