@@ -25,7 +25,31 @@ csp gmp
 
 gc 三色标记 stw 停止 sink 对象池
 
-tcp 查询状态 timewait closewait
+
+
+# tcp 查询状态 timewait closewait 
+https://blog.csdn.net/Shuffle_Ts/article/details/93778635
+https://blog.csdn.net/Shuffle_Ts/article/details/93909003
+
+# TCP keepalive 机制
+
+
+# 缓存一致性  https://www.cnblogs.com/xiaolincoding/p/16493675.html
+1. 旁路缓存 先更新数据库再删除缓存，而不是更新缓存 lazy 用到在取 用到在初始化
+2. 直写： 
+3. 回写/写回
+
+# cpu cache 一致性 mesi https://www.cnblogs.com/xiaolincoding/p/13886559.html
+以前100MHZ的cpu主频的时代，cpu直接从内存读取数据还是能接受的，后来CPU的频率太快了，快到主存跟不上，这样在处理器时钟周期内，CPU常常需要等待主存，这样就会浪费资源。
+
+缓解CPU和内存之间速度的不匹配问题，出现cpu cache
+
+解决cpu cache 与 memeory 保持数据一致，提出只写和回写
+
+解决多核cpu里的cache 缓存一致性，提出mesi（modify exclusive shared invalidated）
+
+
+
 
 # 多线程 goroutine 
 
@@ -41,7 +65,7 @@ tcp 查询状态 timewait closewait
 栈由系统进行管理，而堆由程序员自己管理
 
 静态分配（数组）已在代码中定义了大小，编译时完成内存空间的分配
-
+ 
 一般来说，静态分配用于初始化已知对象大小的时候，比如int a[10];如果我们能够确定这个数组是10个，我们可以使用这种方式。这种方式所需要的内存在编译期间即可确定，因此操作系统便可以预先确定所指定大小内存给变量，并且可以在变量生命周期结束后自动释放。
 
 动态分配(切片) 无法在编译时确定大小，需要动态分配内存空间

@@ -38,3 +38,14 @@ MYSQL_ROOT_PASSWORD=123456：设置 MySQL 服务 root 用户的密码。
 本机可以通过 root 和密码 123456 访问 MySQL 服务。
 
 ![](/img/docker-mysql/docker-ps-mysql.png)
+
+
+## 远程访问
+
+docker exec -it $container$ /bin/bash
+
+mysql -u root -p
+
+alter user 'user'@'%' identified with mysql_native_password by '123456';
+
+flush privileges;
