@@ -50,6 +50,8 @@ Order POST /produceOrder
 
 2. getOrderACK.html
 return ack
+/req id token ack
+/res id token ack 
 
 GO: 
 
