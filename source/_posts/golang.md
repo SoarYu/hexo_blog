@@ -79,6 +79,7 @@ append 容量 地址 拷贝
 
 
 ### 字符串 常量 todo
+https://juejin.cn/post/6931523990280208392
 
 ## 二、goroutine 协程 gmp调度模型
 
