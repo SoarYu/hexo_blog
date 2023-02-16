@@ -227,6 +227,9 @@ MVCC实现的是普通读取不加锁，并且读写分离，保证了读写并�
 
 ### 索引的适用条件（or not）：
 
+索引（a,b,c）where b=xx and a=yy and c =zz走不走索引为啥？
+走索引，可以去看看mysql的优化器，底层内部有启发式的优化算法，sql语句写的顺序并没有任何影响   
+
 ### B+TREE 优缺点比较 二叉树 B树 HASH 
 
 
@@ -294,6 +297,7 @@ struct sdshdr {
 ### Hash
 
 ### SkipList 跳表
+https://www.cnblogs.com/Elliott-Su-Faith-change-our-life/p/7545940.html
 o(logn)
 
 ## 持久化机制

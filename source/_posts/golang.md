@@ -287,9 +287,10 @@ go中的内存泄露一般都是goroutine泄露，就是goroutine没有被关闭
 #### 场景 
 https://blog.csdn.net/m0_37290103/article/details/116493163
 - 暂时性内存泄露
-1. 只获取长字符串中的一段, 导致长字符串未释放
-2. 只获取长slice中的一段, 导致长slice未释放
-3. 在长slice 扩展新建slice拷贝时， 导致泄漏
+1. 只获取长字符串中的一段, 导致长字符串未释放， 方法：截取的时候加个空字符，再去除空字符 " "+s[:][1:]
+2. 只获取长slice中的一段, 导致长slice未释放    方法: 截取的时候加个空元素，再去除  append(a, s[:]...)[1:]
+3. 在长slice 扩展新建slice拷贝时， 导致泄漏    方法: 
+4. 大型数组作为函数参数被频繁调用              方法： 使用数组指针传递
 string相比于切片少了一个容量的cap字段，可以把string当成一个只读的切片类型。获取长string或切片中的一段内容，由于新生成的对象和老的string或切片共用一个内存空间，会导致老的string和切片资源暂时得不到释放，造成短暂的内存泄露。
 
 - 永久性内存泄露
@@ -298,17 +299,75 @@ string相比于切片少了一个容量的cap字段，可以把string当成一�
 3. Finalizer导致泄漏
 4. Deferring Function Call导致泄漏
 
-
+无论是类似 timer 或者 ticker，都要记得 stop，就像使用 channel 也要记得 close 一样，否则会导致资源无法释放而产生泄露。
 
 #### 具体现象及解决方法
 
-1. goroutine内存泄露 最常见的内存泄露
+1. goroutine内存泄露 最常见的内存泄露 channel
 goroutine 由于代码编写的缺陷，使程序运行时产生长期处于阻塞，挂起状态的goroutine，占用内存资源无法释放，产生的内存泄漏现象。
 
-解决方法：
-1. channel 
-2. context
+泄露的原因大多集中在：
+Goroutine 内正在进行 channel/mutex 等读写操作，但由于逻辑问题，某些情况下会被一直阻塞。
+Goroutine 内的业务逻辑进入死循环，资源一直无法释放。
+Goroutine 内的业务逻辑进入长时间等待，有不断新增的 Goroutine 进入等待。
 
+channel 读写
+当缓存区为空时，向 channel 接受数据，goroutine进入阻塞状态
+当缓存区为满时，向 channel 发送数据，goroutine进入阻塞状态
+在实际业务场景中，一般更复杂。基本是一大堆业务逻辑里，有一个 channel 的读写操作出现了问题，自然就阻塞了。
+		
+nil channel 
+channel 没有初始化,无论你是读，还是写操作，都会造成阻塞。
+
+channel close状态, 可读不可写，一写就panic。
+而读呢，如果channel还有数据，那么先读数据，如果channel里面已经没有数据了，还去读channel，那么此时读出来的是类型零值，对于v, ok := <-ch这种双返回值的ok来说，ok被赋值为false。
+
+读取关闭后的无缓存通道，不管通道中是否有数据，返回值都为0和false。
+读取关闭后的有缓存通道，将缓存数据读取完后，再读取返回值为0和false。
+
+for range 遍历channel 
+是runtime帮我们来判断，他的判断标准是 close(ch) 后跳出循环。
+for range是阻塞式读取channel，只有channel close之后才会结束，否则会一直读取，通道里没有值了，还继续读取就会阻塞，程序就会报死锁。
+https://blog.csdn.net/yanyan42/article/details/125769989
+
+waitgroup 同步锁 阻塞
+
+mutex.lock 互斥锁 阻塞
+
+排查方法
+我们可以调用 runtime.NumGoroutine 方法来获取 Goroutine 的运行数量，进行前后一比较，就能知道有没有泄露了。
+
+但在业务服务的运行场景中，Goroutine 内导致的泄露，大多数处于生产、测试环境，因此更多的是使用 PProf：
+
+import (
+    "net/http"
+     _ "net/http/pprof"
+)
+
+http.ListenAndServe("localhost:6060", nil))
+只要我们调用 http://localhost:6060/debug/pprof/goroutine?debug=1，PProf 会返回所有带有堆栈跟踪的 Goroutine 列表。
+
+也可以利用 PProf 的其他特性进行综合查看和分析，这块参考我之前写的《Go 大杀器之性能剖析 PProf》，基本是全村最全的教程了。
+
+2. time.Ticker未关闭导致泄漏
+
+```
+//创建定时器，每隔1秒后，定时器就会给channel发送一个事件(当前时间)
+    ticker := time.NewTicker(time.Second * 1)
+
+    i := 0
+    go func() {
+        for { //循环
+            <-ticker.C
+            i++
+            fmt.Println("i = ", i)
+
+            if i == 5 {
+                ticker.Stop() //停止定时器
+            }
+        }
+    }() //别忘了()
+```
 
 #### 总结
 string和切片不正确的使用是会引起短暂的内存泄露，当然还有一些句柄的连接未释放都会触发内存泄露。不过最主要的内存泄露还是出现在对channel的错误使用，造成goroutine上面。大量的内存泄露会造成程序的oom，当然包括程序书写不当造成的内存泄露，同时也包括运行环境和语言版本存在的问题，都会造成内存不会被释放。oom原因很多需要根据实际出现的问题进行探究。
@@ -391,3 +450,11 @@ https://zhuanlan.zhihu.com/p/74853110#:~:text=%E5%9C%A8Golang%E4%B8%AD,%E8%BF%87
 ## 并发编程 sync  
 
 mutex rwmutex waitgroup atomic cas map pool once  
+
+### golang select
+在Golang中，select用于多个通道中进行读写操作时，同时又需要一次只处理一个，这个时候就需要用到select。
+select具体的功能及用法如下：
+1、select和case结合使用，每次执行select，都会只执行其中1个case或者执行default语句。
+2、当没有case或者default可以执行时，select则阻塞，等待直到有1个case可以执行。
+3、当有多个case可以执行时，则随机选择1个case执行。
+4、case后面跟的必须是读或者写通道的操作，否则编译出错。

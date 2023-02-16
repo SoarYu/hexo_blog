@@ -340,3 +340,17 @@ https://cloud.tencent.com/developer/article/1660840
 
 红黑树的规则特点能够推断出什么东西？
 从根节点到叶子节点的最长路径不大于最短路径的2倍
+
+
+
+## grpc 
+rpc框架 http/2 心跳 protobuf协议
+
+## nacos
+服务注册发现中心，配置中心，支持 sdkrpc httpapi
+namespace group instance service
+
+## etcd 
+分布式kv
+
+##

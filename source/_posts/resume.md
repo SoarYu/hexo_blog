@@ -19,7 +19,7 @@ categories:
 3. os 进程线程 内存管理 io 
 4. mysql 锁 事务 日志 隔离
 5. redis 持久化 底层 
-6. rpc框架 分布式 缓存 负载均衡 消息队列 (grpc nacos kafka rabbitmq )
+6. rpc框架 分布式 缓存 负载均衡 消息队列 (grpc etcd nacos raft kafka rabbitmq )
 7. git 工作流 linux 基础命令
 8. 设计模式 代码风格规范
 9. 算法 数据结构 
