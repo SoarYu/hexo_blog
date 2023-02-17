@@ -140,6 +140,26 @@ Go 语言默认的编码方式
 01100101|01100111|01100111|01101111|1110。。。|1110。。。。| 
 e	     g        o        。        世         界
 
+#### golang container / heap
+
+Go 提供了 container/heap 这个包来实现堆的操作。堆实际上是一个树的结构，每个元素的值都是它的子树中最小的，因此根节点 index = 0 的值是最小的，即**最小堆**。
+
+堆也是实现优先队列 Priority Queue 的常用方式。
+
+堆的 push 和 pop
+
+push 放入数组最后一位进行up
+
+pop 数组最后一位与首位交换， down
+
+type IHeap []item
+func (h *IHeap)
+Len() return len(*h)
+Less(i, j) return h[i] < h[j]
+Swap(i, j) h[i],h[j] = h[j], h[i]
+Push h = append(h, x)
+Pop h = h[:n-1]
+
 ## 二、goroutine 协程 gmp调度模型
 
 
