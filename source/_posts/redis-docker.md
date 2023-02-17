@@ -19,6 +19,14 @@ tar -xzf redis-stable.tar.gz
 
 cp */redis-stable/redis.conf /home/redis/conf
 
+1.修改bind
+
+bind 127.0.0.1 修改为 bind 0.0.0.0
+
+127.0.0.1        表示只允许本地访问,无法远程连接
+
+0.0.0.0     表示任何ip都可以访问
+
 ngg 87 bind 127...
 
 ngg 504 dir /data

@@ -48,4 +48,7 @@ mysql -u root -p
 
 alter user 'user'@'%' identified with mysql_native_password by '123456';
 
-flush privileges;
+开启远程连接
+ALTER USER 'root'@'%' IDENTIFIED WITH mysql_native_password BY 'password'; 
+这个密码为password，是之后远程连接mysql的密码。
+FLUSH PRIVILEGES;
