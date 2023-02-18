@@ -35,7 +35,7 @@ categories:
 组件(帮助Nacos服务注册中心下发服务DNS域名)
 nacos-coredns (grpc)  
 项目描述：提供了一个基于CoreDNS的DNS-F客户端，可以将Nacos上注册的服务导出为DNS域名。 本DNS-F客户端是应用程序进程旁边的一个专用代理进程（side car），可以将服务名作为DNS域名查询请求转发到本客户端，提供服务发现的功能。
-
+dns服务发现sidecar
 是一个专门为Nacos上注册的服务下发DNS域名的DNS服务器， 
 
 负责内容：
