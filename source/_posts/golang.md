@@ -182,6 +182,9 @@ new 函数用于分配内存并返回指向该类型零值的指针。它只接�
                make 为参数传入的引用类型分配内存，并完成初始化，返回的值是 参数传入的引用类型本身。 传 T 返 T
 
 
+### 结构体函数 是否绑定指针的作用？ todo
+https://blog.csdn.net/wanghao72214/article/details/120013580
+
 ## 二、goroutine 协程 gmp调度模型
 
 
