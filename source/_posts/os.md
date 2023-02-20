@@ -876,6 +876,12 @@ LINUX中进程无法直接操作I/O设备，其必须通过系统调用请求ker
 io复用：
 
 select poll epoll
+https://blog.csdn.net/m0_74787523/article/details/128139257?spm=1001.2101.3001.6650.1&utm_medium=distribute.pc_relevant.none-task-blog-2%7Edefault%7EAD_ESQUERY%7Eyljh-1-128139257-blog-126186345.pc_relevant_landingrelevant&depth_1-utm_source=distribute.pc_relevant.none-task-blog-2%7Edefault%7EAD_ESQUERY%7Eyljh-1-128139257-blog-126186345.pc_relevant_landingrelevant&utm_relevant_index=2
 
+https://blog.csdn.net/weixin_59253379/article/details/126186345
+
+https://zhuanlan.zhihu.com/p/465249826
+
+https://www.51cto.com/article/607937.html
 
 
