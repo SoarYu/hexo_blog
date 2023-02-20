@@ -14,16 +14,13 @@ categories:
 * git linux 设计模式
 
 
-1. golang:chan gmp csp gc sync mutex 
-2. tcp/ip http(s) websocket 
-3. os 进程线程 内存管理 io 
-4. mysql 锁 事务 日志 隔离
-5. redis 持久化 底层 
-6. rpc框架 分布式 缓存 负载均衡 消息队列 (grpc etcd nacos raft kafka rabbitmq )
-7. git 工作流 linux 基础命令
-<!-- 9. 算法 数据结构  -->
-<!-- 8. 设计模式 代码风格规范 -->
-
+1. 熟悉 golang:chan gmp csp gc sync mutex 
+2. 熟悉 tcp/ip http(s) websocket 
+3. 熟悉 os 进程线程 内存管理 io 
+4. 了解 mysql 锁 事务 日志 隔离
+5. 了解 redis 持久化 底层 
+6. 了解 rpc框架 分布式 缓存 负载均衡 消息队列 (grpc etcd nacos raft kafka rabbitmq )
+7. 使用 git 工作流 linux 基础命令 docker 部署
 
 了解Kafka消息中间件，了解ES查询引擎
 了解分布式存储系统原理优先：例如Quorum、CAP、2PC、Raft等。
@@ -42,7 +39,7 @@ categories:
 作为一个Nacos插件， 基于CoreDNS进行二次开发的DNS服务器， 
 组件(帮助Nacos服务注册中心下发服务DNS域名)
 nacos-coredns (grpc)  
-项目描述：提供了一个基于CoreDNS的DNS-F客户端，可以将Nacos上注册的服务导出为DNS域名。 本DNS-F客户端是应用程序进程旁边的一个专用代理进程（side car），可以将服务名作为DNS域名查询请求转发到本客户端，提供服务发现的功能。
+项目描述：提供了一个基于CoreDNS的DNS-F客户端，可以将Nacos上注册的服务导出为DNS域名，基于DNS的服务发现 并为服务发现提供DNS解析服务。 本DNS-F客户端是应用程序进程旁边的一个专用代理进程（side car），可以将服务名作为DNS域名查询请求转发到本客户端，提供服务发现的功能。
 dns服务发现sidecar 
 是一个专门为Nacos上注册的服务下发DNS域名的DNS服务器， 
 
@@ -90,7 +87,7 @@ Nacos 支持基于DNS方式及RPC方式的服务发现。服务提供者可以�
 1. 基于 Gin 进行模块化设计的 API 框架，封装了常用的功能，使用简单，致力于进行快速的业务研发
 2. gorm mysql orm 框架 对象映射  
 3. redis 淘汰超时未支付订单
-4. validate鉴权 auth  jwt 
+4. validate鉴权 auth  jwt  
 3. 后台监控 流量 性能 健康  
 5. websocket 与 客户端实时通讯， 
 2. 消息队列  kafka
@@ -99,10 +96,21 @@ Nacos 支持基于DNS方式及RPC方式的服务发现。服务提供者可以�
  
 gogin restful api
 
-
-
-
 #### nacos coredns grpc
+
+作为客户端的sidecar，根据服务节点的权重，实现中间层负载均衡，流量控制
+
+技术栈：coredns + nacos + grpc + protobuf + bigcahce + zaplogger
+负责工作：
+1. 使用CoreDNS实现自定义域名解析，完成基于DNS的服务发现  
+2. 根据Protobuf协议序列化通信数据，与Nacos建立gRPC长连接 
+3. 使用 Bigcahce 作为本地缓存，实现服务数据高性能并发读写，淘汰过期数据
+4. 使用 Zap 作为日志组件，实现冷启动时缓存预热，防止雪崩
+5. 在Nacos官方文档中贡献了本Nacos CoreDNS插件的设计文档和使用文档，丰富了Nacos的生态融合。
+
+根据服务集群中各实例权重不同，设计了根据权重轮询的负载均衡算法，转发 。权重路由策略，用以实现中间层负载均衡，灵活路由策略，流量控制及 DNS 解析服务。
+
+5. nacos官方文档 
 
 STAR法则（Situation Task Action Result）
 Situation： 事情是在什么情况下发生； http短连接, 频繁创建销毁，没有复用
@@ -118,3 +126,19 @@ Advantage： 比别人好在哪些地方；
 Benefit： 如果雇佣你，招聘方会得到什么好处。
 简单来说，这个法则主要是让你的面试官知道你的优势、招了你之后对公司有什么帮助。
 
+#### scholat gopay
+
+技术栈： gin + gorm + redis + jwt + websocket + prometheus
+
+1. gin api框架 gorm orm框架
+2. redis 缓存订单数据，超时订单淘汰
+3. jwt 鉴权 validate
+4. 支付结果实时通知，websocket 客户端通信
+5. 消息队列，数据一致性
+6. ppof prometheus 监控系统性能、接口流量
+
+
+bigcache 
+https://juejin.cn/post/7107635176263385118
+https://www.jianshu.com/p/0ff2e8c61c9c
+https://zhuanlan.zhihu.com/p/487455942
