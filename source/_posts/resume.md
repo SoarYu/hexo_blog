@@ -21,8 +21,8 @@ categories:
 5. redis 持久化 底层 
 6. rpc框架 分布式 缓存 负载均衡 消息队列 (grpc etcd nacos raft kafka rabbitmq )
 7. git 工作流 linux 基础命令
-8. 设计模式 代码风格规范
-9. 算法 数据结构 
+<!-- 9. 算法 数据结构  -->
+<!-- 8. 设计模式 代码风格规范 -->
 
 
 了解Kafka消息中间件，了解ES查询引擎
@@ -37,11 +37,13 @@ categories:
 活动联合国内外各大开源社区，针对重要开源软件的开发与维护提供项目任务，并面向全球高校学生开放报名。
 
 1. Nacos DNS服务插件   中科院软件研究所 “开源之夏” Nacos社区 2022.06~2022.10
+以前：简单代理转换的向DNS请求域名下发服务的ip地址和端口， 现在：动态 DNS 服务支持权重路由策略，用以实现中间层负载均衡，灵活路由策略，流量控制及 DNS 解析服务。 
+
 作为一个Nacos插件， 基于CoreDNS进行二次开发的DNS服务器， 
 组件(帮助Nacos服务注册中心下发服务DNS域名)
 nacos-coredns (grpc)  
 项目描述：提供了一个基于CoreDNS的DNS-F客户端，可以将Nacos上注册的服务导出为DNS域名。 本DNS-F客户端是应用程序进程旁边的一个专用代理进程（side car），可以将服务名作为DNS域名查询请求转发到本客户端，提供服务发现的功能。
-dns服务发现sidecar
+dns服务发现sidecar 
 是一个专门为Nacos上注册的服务下发DNS域名的DNS服务器， 
 
 负责内容：
@@ -96,3 +98,23 @@ Nacos 支持基于DNS方式及RPC方式的服务发现。服务提供者可以�
 5. jerkins docker ci/cd
  
 gogin restful api
+
+
+
+
+#### nacos coredns grpc
+
+STAR法则（Situation Task Action Result）
+Situation： 事情是在什么情况下发生； http短连接, 频繁创建销毁，没有复用
+Task:： 你是如何明确你的任务的；     替换成grpc长连接 以rpc调用的方式，与nacos服务端建立通信，
+Action： 针对这样的情况分析，你采用了什么行动方式；
+Result： 结果怎样，在这样的情况下你学习到了什么。
+简而言之，STAR法则，就是一种讲述自己故事的方式，或者说，是一个清晰、条理的作文模板。不管是什么，合理熟练运用此法则，可以轻松的对面试官描述事物的逻辑方式，表现出自己分析阐述问题的清晰性、条理性和逻辑性。
+
+
+FAB 法则（Feature Advantage Benefit）
+Feature： 是什么；
+Advantage： 比别人好在哪些地方；
+Benefit： 如果雇佣你，招聘方会得到什么好处。
+简单来说，这个法则主要是让你的面试官知道你的优势、招了你之后对公司有什么帮助。
+
