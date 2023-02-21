@@ -98,6 +98,8 @@ gogin restful api
 
 #### nacos coredns grpc
 
+BigCache 是一个快速，支持并发访问，自淘汰的内存型缓存，可以在存储大量元素的同时依然保持高性能。BigCache将元素保存在堆上却避免了GC的开销。
+
 作为客户端的sidecar，根据服务节点的权重，实现中间层负载均衡，流量控制
 
 技术栈：coredns + nacos + grpc + protobuf + bigcahce + zaplogger

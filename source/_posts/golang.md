@@ -23,6 +23,10 @@ go怎么做到面向对象
 100的QPS，同步调用开100个进程，是否比多线程（线程池）更优？
 */
 
+gmp gc 
+channel slice map context 
+sync并发编程 
+
 # golang 学习
 
 ## 一、基础变量 值传递 引用传递 slice map 
