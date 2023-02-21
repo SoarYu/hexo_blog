@@ -106,9 +106,9 @@ BigCache 是一个快速，支持并发访问，自淘汰的内存型缓存，�
 负责工作：
 1. 使用CoreDNS实现自定义域名解析，完成基于DNS的服务发现  
 2. 根据Protobuf协议序列化通信数据，与Nacos建立gRPC长连接 
-3. 使用 Bigcahce 作为本地缓存，实现服务数据高性能并发读写，淘汰过期数据
-4. 使用 Zap 作为日志组件，实现冷启动时缓存预热，防止雪崩
-5. 在Nacos官方文档中贡献了本Nacos CoreDNS插件的设计文档和使用文档，丰富了Nacos的生态融合。
+3. 使用 Bigcahce 作为本地缓存，实现服务数据的高性能并发读写、自淘汰机制，避免GC的开销
+4. 使用 Zap 作为日志组件，实现冷启动时缓存预热，防止缓存雪崩
+5. 在Nacos官方文档中贡献了本Nacos DNS组件的设计文档和使用文档，丰富了Nacos的生态融合。
 
 根据服务集群中各实例权重不同，设计了根据权重轮询的负载均衡算法，转发 。权重路由策略，用以实现中间层负载均衡，灵活路由策略，流量控制及 DNS 解析服务。
 
@@ -132,7 +132,7 @@ Benefit： 如果雇佣你，招聘方会得到什么好处。
 
 技术栈： gin + gorm + redis + jwt + websocket + prometheus
 
-1. gin api框架 gorm orm框架
+1. gin Web框架 + gorm 数据库组件，快速规范开发
 2. redis 缓存订单数据，超时订单淘汰
 3. jwt 鉴权 validate
 4. 支付结果实时通知，websocket 客户端通信
@@ -144,3 +144,6 @@ bigcache
 https://juejin.cn/post/7107635176263385118
 https://www.jianshu.com/p/0ff2e8c61c9c
 https://zhuanlan.zhihu.com/p/487455942
+
+
+开源 交流 时间自由 
