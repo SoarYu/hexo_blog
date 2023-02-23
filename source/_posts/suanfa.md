@@ -2,7 +2,7 @@
 title: 动态规划经典问题
 date: 2023-02-13 16:04:43
 categories: 
- - leetcode
+ - 学习笔记
 ---
 
 ## 动态规划

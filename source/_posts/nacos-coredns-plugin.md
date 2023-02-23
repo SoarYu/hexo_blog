@@ -2,7 +2,7 @@
 title: linux部署nacos-coredns-plugin
 date: 2022-06-21 19:53:43
 categories: 
- - nacos
+ - Deploy相关
 ---
 
 ## nacos-coredns-plugin部署 (golang<=1.14)

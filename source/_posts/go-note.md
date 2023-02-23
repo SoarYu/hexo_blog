@@ -1,7 +1,8 @@
 ---
-title: go笔记
+title: go笔记：数组、slice、new、make 区别
 date: 2022-07-06 13:32:43
 categories: 
+ - 学习笔记
  - go
 ---
 

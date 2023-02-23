@@ -1,8 +1,8 @@
 ---
-title: 数据库 MySQL、Redis
+title: 数据库笔记
 date: 2022-12-14 5:26:43
 categories: 
- - 学习
+ - 学习笔记
 ---
 
 mysql 事务 索引 锁 隔离  mvcc sql优化  

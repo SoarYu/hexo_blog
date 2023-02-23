@@ -2,7 +2,7 @@
 title: git 将本地代码推送到新仓库
 date: 2022-07-06 22:16:00
 categories: 
- - git
+ - Deploy相关
 ---
 
 在github新建仓库获取https://*.git

@@ -2,7 +2,7 @@
 title: Hexo部署到腾讯云（Ubuntu 20.04）
 date: 2022-06-25 16:07:00
 categories: 
- - Hexo
+ - Deploy相关
 ---
 # Hexo部署到腾讯云
 

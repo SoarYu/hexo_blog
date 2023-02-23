@@ -1,8 +1,8 @@
 ---
-title: ubuntu-go-protobuf
+title: ubuntu-protobuf 安装
 date: 2022-07-03 17:08:43
 categories: 
- - linux
+ - Deploy相关
 ---
 ## ubuntu-go
 bridge

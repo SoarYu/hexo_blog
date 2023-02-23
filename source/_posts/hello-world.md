@@ -2,7 +2,7 @@
 title: About Hexo
 date: 2022-06-21 15:21:00
 categories: 
- - Hexo
+ - Deploy相关
 ---
 # 有关Hexo-fluid主题的各种配置
 

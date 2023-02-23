@@ -2,7 +2,7 @@
 title: gitlab-docker部署
 date: 2022-10-18 19:47:43
 categories: 
- - leetcode
+ - Deploy相关
 ---
 
 

@@ -2,7 +2,7 @@
 title: gRPC+protobuf搭建的简单服务端注册到nacos中,并进行负载均衡测试
 date: 2022-07-05 15:10:43
 categories: 
- - nacos
+ - Deploy相关
 ---
 
 **![项目代码来源](https://gitee.com/xiaonqedu/nacos-grpc-gotest?_from=gitee_search)**

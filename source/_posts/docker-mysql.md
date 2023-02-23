@@ -2,7 +2,7 @@
 title: mysql-docker部署
 date: 2022-06-25 20:32:43
 categories: 
- - nacos
+ - Deploy相关
 ---
 ## docker 安装
 ```

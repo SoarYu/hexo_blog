@@ -1,8 +1,8 @@
 ---
 title: linux docker 安装redis
-date: 2022-01-10 01:59:43
+date: 2023-01-10 01:59:43
 categories: 
- - 学习
+ - Deploy相关
 ---
 
 https://blog.csdn.net/u014282578/article/details/128061249

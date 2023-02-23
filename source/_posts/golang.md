@@ -1,8 +1,9 @@
 ---
-title: 操作系统-磁盘内存管理
+title: golang 学习笔记
 date: 2022-01-05 04:04:43
 categories: 
- - 学习
+ - 学习笔记
+ - go
 ---
 mutex rwlock 悲观锁 读多写少
 

@@ -1,8 +1,8 @@
 ---
-title: 操作系统-磁盘内存管理
+title: 综合笔记
 date: 2022-01-05 04:04:43
 categories: 
- - 学习
+ - 学习笔记
 ---
 
 cpu cache mesi
