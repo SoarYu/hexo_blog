@@ -1,11 +1,9 @@
 ---
-title: 位运算符
+title: 动态规划经典问题
 date: 2023-02-13 16:04:43
 categories: 
  - leetcode
 ---
-
-# 剑指offer
 
 ## 动态规划
 
