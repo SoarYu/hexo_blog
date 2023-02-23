@@ -189,6 +189,9 @@ new 函数用于分配内存并返回指向该类型零值的指针。它只接�
 ### 结构体函数 是否绑定指针的作用？ todo
 https://blog.csdn.net/wanghao72214/article/details/120013580
 
+
+### interface{}{} 空结构体 空接口
+
 ## 二、goroutine 协程 gmp调度模型
 
 

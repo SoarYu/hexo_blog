@@ -39,3 +39,29 @@ Dubbo 提供了基于权重的负载均衡算法，可以实现按比例的流�
 - dubbo-admin 控制台可以 修改 dubbo 中服务的配置， 最终负载均衡还是dubbo根据权重来完成的。
 - dubbo-admin 从 dubbo 获取服务请求记录，根据记录动态调整新版本服务实例权重。
  /dubbo-admin-server/flowMonitor/
+
+
+仿照 java 版本 WeightController
+post 输入 服务 以及 权重 。。。
+接收 post 转换动态配置规则 
+
+// Post 接收 服务 以及 相关权重输入
+func createWeight(weightDTO) {
+    // 接收 服务与权重输入 转换动态配置规则 
+    overrideService.saveWeight(weightDTO)
+}
+// 完成具体转换, 写入真正dubbo组件的配置中心、注册中心
+func saveWeight() {
+    dubboConfig.writeWeight() // 基础已在重构的dubbo-go中写好
+}
+
+定义一个api接口，post请求接收前端输入的服务以及相关权重数据，将数据写入dubbo的服务注册中心、配置中心中
+
+
+服务注册： provider 在 dubbo的服务中心（zookeeper/nacos/k8s）进行本服务的注册
+服务发现： dubbo consumer 想要与 dubbo provider 进行rpc调用，需要在dubbo的服务中心中查询provider注册的地址
+
+
+dubbo 是一个服务
+
+https://www.cnblogs.com/cao-lei/p/15078706.html
