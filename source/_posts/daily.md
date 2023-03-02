@@ -5,21 +5,6 @@ categories:
  - 学习笔记
 ---
 
-cpu cache mesi
-
-mysql 最左匹配原则
-
-mutex rwlock 悲观锁 读多写少
-
-cas  读多写少 无锁map 乐观锁 原子操作
-
-map 线程安全
-
-空结构体 不占内存
-
-切片数组 值类型直接对应内存中的值 引用类型指向内存中存放该值的地址
-
-gc 三色标记 stw 停止 sink 对象池
 
 
 
@@ -362,3 +347,22 @@ CAP 中的 P 是什么意思？
 
 
 ## zookeeper
+
+
+
+
+cpu cache mesi
+
+mysql 最左匹配原则
+
+mutex rwlock 悲观锁 读多写少
+
+cas  读多写少 无锁map 乐观锁 原子操作
+
+map 线程安全
+
+空结构体 不占内存
+
+切片数组 值类型直接对应内存中的值 引用类型指向内存中存放该值的地址
+
+gc 三色标记 stw 停止 sink 对象池

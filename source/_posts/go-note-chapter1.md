@@ -1,5 +1,5 @@
 ---
-title: Go语言圣经笔记-第一章
+title: 笔记：Go语言圣经 
 date: 2022-11-05 13:32:43
 categories: 
  - 学习笔记
