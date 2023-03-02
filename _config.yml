@@ -103,11 +103,12 @@ theme: next
 ## Docs: https://hexo.io/docs/one-command-deployment
 deploy:
 - type: git
-  repository : blog@106.52.77.111:/var/repo/hexo_static.git
-  branch: master
-- type: git
   repository: git@github.com:SoarYu/SoarYu.github.io.git
   branch: master
+# - type: git
+#   repository : blog@106.52.77.111:/var/repo/hexo_static.git
+#   branch: master
+
 
 
 #end
