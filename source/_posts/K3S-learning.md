@@ -1,5 +1,5 @@
 ---
-title: K3S 集群部署学习记录
+title: K8S 集群部署学习记录
 date: 2023-01-06 13:32:43
 description: 基于kubernetes V1.25版本。从V1.24开始，kubernetes默认容器运行时使用containerd，不再使用docker。
 categories: 
@@ -7,7 +7,7 @@ categories:
 ---
 
 
-## 一、K3S 集群部署
+# 一、K3S 集群部署
 ```bash
 #  关闭防火墙
 #  设置selinux(需要联网)
@@ -44,7 +44,7 @@ K3S_TOKEN=K103b3dfdad0ab6fe42a55a30b7873ac52baecbd27189fe27673b4c08358ef26231::s
 ./install.sh
 
 ```
-### 运行环境
+## 运行环境
 
 - 最低运行要求
    - 内存: 512MB   /   CPU: 1 核心
@@ -59,7 +59,7 @@ bridge模式 |
 | k8s-worker1 | 192.168.66.53 |  |  |  |
 | k8s-worker2 | 192.168.66.54 |  |  |  |
 
-### 1.准备工作
+## 1.准备工作
 需要在每台机器上执行如下命令：
 
    - 关闭防火墙
@@ -71,13 +71,13 @@ sudo ufw disable
 yum install -y container-selinux selinux-policy-base
 yum install -y https://rpm.rancher.io/k3s/latest/common/centos/7/noarch/k3s-selinux-0.2-1.el7_8.noarch.rpm
 ```
-### 2.下载安装包
+## 2.下载安装包
 下载安装脚本`**install.sh**`：[https://get.k3s.io/](https://get.k3s.io/)
 下载`**k3s**`二进制文件：[k3s](https://github.com/k3s-io/k3s/releases/download/v1.25.0%2Bk3s1/k3s)
 下载必要的**image**：[离线安装需要的image文件](https://github.com/k3s-io/k3s/releases/download/v1.25.0%2Bk3s1/k3s-airgap-images-amd64.tar.gz)
 > 这些文件都可以在github仓库中获取：[https://github.com/k3s-io/k3s](https://github.com/k3s-io/k3s)
 
-### 3.执行安装脚本
+## 3.执行安装脚本
 
 1. 将k3s二进制文件移动到/usr/local/bin目录，并添加执行权限
 ```bash
@@ -112,7 +112,7 @@ K3S_TOKEN=K106e06c1493d4fc3b4941c85d6dbfdaf7140a7e660ca8b6f849f89ff480c4ed418::s
 ./install.sh
 ```
 
-### 虚拟网卡 cni0
+## 虚拟网卡 cni0
 k8s内部的虚拟网络：
 master
 ```bash
@@ -147,7 +147,7 @@ cni0: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1450
         TX packets 4067  bytes 1530154 (1.4 MiB)
         TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
 ```
-### 排查错误
+## 排查错误
 如果安装或启动不成功，可能有以下几个原因：
 
 1. 时间不统一
@@ -163,10 +163,10 @@ cni0: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1450
 [https://rancher.com/docs/k3s/latest/en/quick-start/](https://rancher.com/docs/k3s/latest/en/quick-start/)
 [https://rancher.com/docs/k3s/latest/en/installation/airgap/](https://rancher.com/docs/k3s/latest/en/installation/airgap/)
 
-## 二、镜像加速
+# 二、镜像加速
 由于kubernetes从`V1.24`版本开始默认使用`**containerd**`作为容器服务，需要修改`**containerd**`的配置文件，才能让Pod的镜像使用镜像加速器。
 配置文件路径一般为`**/etc/containerd/config.toml**`，详见[阿里云镜像加速](https://help.aliyun.com/document_detail/60750.html)。
-#### 在K3s中配置镜像仓库
+## 在K3s中配置镜像仓库
 K3s 会自动生成containerd的配置文件**/var/lib/rancher/k3s/agent/etc/containerd/config.toml**,不要直接修改这个文件，k3s重启后修改会丢失。
 为了简化配置，K3s 通过**/etc/rancher/k3s/registries.yaml**文件来配置镜像仓库，K3s会在启动时检查这个文件是否存在。
 我们需要在每个节点上新建/etc/rancher/k3s/registries.yaml文件，配置内容如下：
@@ -186,7 +186,9 @@ systemctl restart k3s-agent
 cat /var/lib/rancher/k3s/agent/etc/containerd/config.toml
 ```
 ![image.png](https://cdn.nlark.com/yuque/0/2022/png/28915315/1664114191862-6dfeb893-b80d-4d71-b2a1-6862b68b22b1.png#averageHue=%23071a1f&clientId=uca5f7f44-ddce-4&errorMessage=unknown%20error&from=paste&height=560&id=ued1f7420&name=image.png&originHeight=1120&originWidth=1740&originalType=binary&ratio=1&rotation=0&showTitle=false&size=164307&status=error&style=none&taskId=ueaed5979-f365-4f38-9f24-3688965f700&title=&width=870)
-## 三、创建和管理Pod
+
+# 三、创建和管理Pod
+
 ```bash
 # 创建一个pod：mynginx, 使用镜像nginx
 kubectl run mynginx --image=nginx:1.22
@@ -216,7 +218,10 @@ kubectl delete pod mynginx
 # 强制删除
 kubectl delete pod mynginx --force
 ```
+
 ![image.png](https://cdn.nlark.com/yuque/0/2022/png/28915315/1663814727899-c31f2117-d540-48fc-93dc-e004dbf1abfb.png#averageHue=%230c1e24&clientId=u8b252c4c-2ccb-4&errorMessage=unknown%20error&from=paste&height=68&id=u1c6f8676&name=image.png&originHeight=136&originWidth=1744&originalType=binary&ratio=1&rotation=0&showTitle=false&size=25497&status=error&style=none&taskId=ue22858f7-27a3-4ce9-b8a5-b11163e70ae&title=&width=872)
+
+
 ## 创建管理Deployment(部署)与ReplicaSet(副本集)
 **Deployment**是对ReplicaSet和Pod更高级的抽象。
 它使Pod拥有多副本，自愈，扩缩容、滚动升级等能力。
@@ -224,7 +229,9 @@ kubectl delete pod mynginx --force
 **ReplicaSet**(副本集)是一个Pod的集合。
 它可以设置运行Pod的数量，确保任何时间都有指定数量的 Pod 副本在运行。
 通常我们不直接使用ReplicaSet，而是在Deployment中声明。
-### 创建deployment和replicaset
+
+
+## 创建deployment和replicaset
 ```bash
 #创建deployment,部署3个运行nginx的Pod
 [root@k3s-master52 ~]# kubectl create deployment nginx-deploy --image=nginx:1.22 --replicas=3
@@ -245,10 +252,9 @@ nginx-deploy   3/3     3            3           3m6s
 [root@k3s-master52 ~]# kubectl get replicaset
 NAME                      DESIRED   CURRENT   READY   AGE
 nginx-deploy-855866bb46   3         3         3       3m17s
-
-
 ```
-### Pod自愈功能
+
+## Pod自愈功能
 ```bash
 # 删除其中一个pod
 [root@k3s-master52 ~]# kubectl delete pod nginx-deploy-855866bb46-s2zqc
@@ -260,9 +266,9 @@ NAME                            READY   STATUS    RESTARTS   AGE
 nginx-deploy-855866bb46-xnqzf   1/1     Running   0          5m59s
 nginx-deploy-855866bb46-clg2r   1/1     Running   0          5m59s
 nginx-deploy-855866bb46-8rdbn   1/1     Running   0          118s
-
 ```
-### Pod缩放功能
+
+## Pod缩放功能
 
 - 手动缩放
 ```bash
@@ -294,7 +300,7 @@ kubectl get hpa
 kubectl delete hpa nginx-deployment
 ```
 
-### 滚动更新
+## 滚动更新
 ```bash
 #查看版本和Pod
 kubectl get deployment/nginx-deployment -owide
@@ -307,7 +313,7 @@ kubectl rollout status deployment/nginx-deployment
 #查看过程
 kubectl get rs --watch
 ```
-### 版本回滚
+## 版本回滚
 ```bash
 #查看历史版本
 kubectl rollout history deployment/nginx-deployment
@@ -317,7 +323,7 @@ kubectl rollout history deployment/nginx-deployment --revision=2
 kubectl rollout undo deployment/nginx-deployment --to-revision=2
 ```
 
-## 五、Service 服务
+# 四、Service 服务
 
 - Service将运行在一组 [Pods](https://kubernetes.io/zh-cn/docs/concepts/workloads/pods/) 上的应用程序公开为网络服务的抽象方法。
 - Service为一组 Pod 提供相同的 DNS 域名，并且在它们之间进行负载均衡。
@@ -431,8 +437,8 @@ kube-public       Active   2d5h
 kube-node-lease   Active   2d5h
 
 ```
-## 六、Namespace命名空间
-### 使用多个命名空间
+# 五、Namespace命名空间
+## 使用多个命名空间
 
 - 命名空间是在多个用户之间划分集群资源的一种方法（通过[资源配额](https://kubernetes.io/zh-cn/docs/concepts/policy/resource-quotas/)）。
    - 例如我们可以设置**开发、测试、生产**等多个命名空间。
@@ -441,7 +447,7 @@ kube-node-lease   Active   2d5h
 - 命名空间适用于跨多个团队或项目的场景。
    - 对于只有几到几十个用户的集群，可以不用创建命名空间。
 - 命名空间不能相互嵌套，每个 Kubernetes 资源只能在一个命名空间中。
-### 管理命名空间
+## 管理命名空间
 ```bash
 #创建命名空间
 kubectl create namespace dev
@@ -460,7 +466,7 @@ kubectl get all
 # 删除命名空间会删除命名空间下的所有内容
 kubectl delete ns dev
 ```
-### 切换当前命名空间
+## 切换当前命名空间
 ```bash
 #查看当前上下文
 kubectl config current-context
@@ -470,7 +476,7 @@ kubectl config set-context $(kubectl config current-context) --namespace=dev
 ```
 
 
-## 七、声明式对象配置（YAML）
+# 六、声明式对象配置（YAML）
 :::info
 **云原生的代表技术包括：**
 		■容器
@@ -479,7 +485,7 @@ kubectl config set-context $(kubectl config current-context) --namespace=dev
 		■不可变基础设施
 		■**声明式API**
 :::
-### 管理K8S对象的方式
+## 管理K8S对象的方式
 :::danger
 ●命令行指令
 例如，使用kubectl命令来创建和管理 Kubernetes 对象。
@@ -493,7 +499,7 @@ kubernetes使用yaml文件来描述 Kubernetes 对象。
 好处是操作留痕，适合操作复杂的对象，多用于生产。
 :::
 
-### 常用命令缩写
+## 常用命令缩写
 | 名称 | 缩写 | Kind |
 | --- | --- | --- |
 | namespaces | ns | Namespace |
@@ -504,7 +510,7 @@ kubernetes使用yaml文件来描述 Kubernetes 对象。
 | replicasets | rs | ReplicaSet |
 | statefulsets | sts | StatefulSet |
 
-### YAML规范
+## YAML规范
 > - 缩进代表上下级关系
 > - **缩进时不允许使用Tab键，只允许使用空格，通常缩进2个空格**
 > - `**:**` 键值对，后面必须有空格
@@ -547,7 +553,7 @@ group:
 ---
 ```
 
-### 配置对象
+## 配置对象
 在创建的 Kubernetes 对象所对应的 yaml文件中，需要配置的字段如下：
 ● `** apiVersion **` - Kubernetes API 的版本
 ● ` **kind** `- 对象类别，例如Pod、Deployment、Service、ReplicaSet等
@@ -586,7 +592,7 @@ kubectl edit nginx
 #删除对象
 kubectl delete -f my-pod.yaml
 ```
-### 标签
+## 标签
 标签（Labels） 是附加到对象（比如 Pod）上的键值对，用于补充对象的描述信息。
 标签使用户能够以松散的方式管理对象映射，而无需客户端存储这些映射。
 由于一个集群中可能管理成千上万个容器，我们可以使用标签高效的进行选择和操作容器集合。
@@ -635,7 +641,7 @@ NAME         READY   STATUS    RESTARTS   AGE
 label-demo   1/1     Running   0          48s
 ```
 
-### 选择器 创建Service
+## 选择器 创建Service
 **标签选择器** 可以识别一组对象。标签不支持唯一性。
 标签选择器最常见的用法是为Service选择一组Pod作为后端。
 
@@ -714,7 +720,7 @@ selector:
 [https://kubernetes.io/zh-cn/docs/concepts/workloads/pods/](https://kubernetes.io/zh-cn/docs/concepts/workloads/pods/)
 [https://kubernetes.io/zh-cn/docs/concepts/overview/working-with-objects/labels/](https://kubernetes.io/zh-cn/docs/concepts/overview/working-with-objects/labels/)
 
-## 金丝雀发布
+# 七、金丝雀发布
 :::info
 **金丝雀部署(canary deployment)也被称为灰度发布。**
 早期，工人下矿井之前会放入一只金丝雀检测井下是否存在有毒气体。
@@ -723,10 +729,10 @@ selector:
 如果没有错误发生，则将新版本逐渐推广到整个基础设施。
 :::
 ![](https://cdn.nlark.com/yuque/0/2022/png/28915315/1663905517618-074351d1-bdc4-4a33-b9de-55d8bfa4c95b.png?x-oss-process=image%2Fresize%2Cw_589%2Climit_0#averageHue=%23f7f7f7&from=url&id=WjUyO&originHeight=390&originWidth=589&originalType=binary&ratio=1.25&rotation=0&showTitle=false&status=done&style=none&title=)
-### 部署过程
+## 部署过程
 ![](https://cdn.nlark.com/yuque/0/2022/png/28915315/1665656300936-3dff684a-d5da-4165-b70f-a28f183b57f6.png?x-oss-process=image%2Fresize%2Cw_607%2Climit_0#averageHue=%23fbfcf7&from=url&id=gABjk&originHeight=376&originWidth=607&originalType=binary&ratio=1.25&rotation=0&showTitle=false&status=done&style=none&title=)
 
-### 部署V1版本 nginx-deployment-v1
+## 部署V1版本 nginx-deployment-v1
 发布v1版本的应用，镜像使用`nginx:1.22`,数量为 3。
 
 - **创建Namespace**
@@ -798,8 +804,8 @@ kubectl apply -f ~/deploy-v1.yaml
 # 查看服务canary-demo详情
 kubectl describe service canary-demo -n=dev
 ```
-### 部署V2版本 nginx-deployment-canary
-#### 创建Canary Deployment
+## 部署V2版本 nginx-deployment-canary
+### 创建Canary Deployment
 发布新版本的应用，镜像使用docker/getting-started，数量为 1。
 ```yaml
 apiVersion: apps/v1
